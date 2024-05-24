@@ -1,0 +1,336 @@
+<form [formGroup]="dealForm" (ngSubmit)="saveDeal()" class="form">
+    <div class="header">
+        <h2>
+            <a href="#" (click)="goBack()">
+                <fa-icon [icon]="faChevronLeft"></fa-icon>
+            </a>
+            {{title}}
+        </h2>
+
+        <div class="button-row">
+            <button pButton type="submit" name="saveDeal"
+                severity="contrast"
+            >
+                Save
+            </button>
+            <button pButton
+                type="button"
+                name="closeDeal"
+                (click)="closeDeal()"
+                *ngIf="this.deal.id != null && this.deal.status === 'open'"
+                severity="primary"
+            >
+                Close Deal
+            </button>
+            <button pButton
+                type="button"
+                name="reopenDeal"
+                id="reopenDeal"
+                (click)="reopenDeal()"
+                *ngIf="deal.id != null && deal.status === 'closed'"
+                severity="contrast"
+            >
+                Reopen Deal
+            </button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="mb-3 col">
+            <div>
+                <p-dropdown formControlName="exchange"
+                    [inputId]="'exchange'"
+                    [options]="exchanges"
+                    [style]="{ width: '100%' }"
+                    optionLabel="name"
+                    optionValue="value"
+                    placeholder="Select"
+                />
+            </div>
+            <label for="exchange">Exchange</label>
+        </div>
+        <div class="mb-3 col">
+            <div>
+                <p-dropdown formControlName="assetType"
+                    [inputId]="'assetType'"
+                    [options]="assetTypes"
+                    [style]="{ width: '100%' }"
+                    optionLabel="name"
+                    optionValue="value"
+                    placeholder="Select"
+                />
+            </div>
+            <label for="assetType">Asset Type</label>
+        </div>
+        <div class="mb-3 col">
+            <div>
+                <p-autoComplete formControlName="ticker"
+                    [inputId]="'ticker'"
+                    [suggestions]="filteredTickers"
+                    (completeMethod)="filterTicker($event)"
+                    [style]="{ width: '100%' }"
+                    field="symbol"
+                >
+                    <ng-template let-ticker pTemplate="item">
+                        {{ticker.name}}
+                    </ng-template>
+                </p-autoComplete>
+            </div>
+            <label for="ticker">Ticker</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="mb-3 col">
+            <div>
+                <p-calendar id="openDate" name="openDate" formControlName="openDate"
+                    [showButtonBar]="true"
+                />
+            </div>
+            <label for="openDate">Open Date</label>
+        </div>
+        <div class="mb-3 col">
+            <div>
+                <dt-quote-input formControlName="openPrice"
+                    [options]="{ name: 'openPrice' }"
+                    [ticker]="dealForm.value.ticker"
+                    [assetType]="dealForm.value.assetType"
+                />
+            </div>
+            <label for="openPrice">Open Price</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="mb-3 col" *ngIf="investAs === 'units'">
+            <div>
+                <p-inputNumber name="units" id="units" formControlName="units"
+                    mode="decimal"
+                    [minFractionDigits]="0"
+                    [maxFractionDigits]="8"
+                />
+            </div>
+            <div class="label-value">
+                <label for="units">Units</label>
+                <span class="toggle" (click)="toggleInvestAs()">{{deal.invest | dtcurrency}}</span>
+            </div>
+        </div>
+        <div class="mb-3 col" *ngIf="investAs === 'amount'">
+            <div>
+                <p-inputNumber name="invest" id="invest" formControlName="invest"
+                    mode="currency"
+                    currency="USD"
+                    locale="en-US"
+                    [minFractionDigits]="2"
+                    [maxFractionDigits]="3"
+                />
+            </div>
+            <div class="label-value">
+                <label for="invest">Investment</label>
+                <span class="toggle" (click)="toggleInvestAs()">{{deal.units | number: '1.0-8'}}
+                    Units</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="mb-3 col" *ngIf="takeProfitAs === 'percent'">
+            <div>
+                <p-inputNumber name="takeProfit" formControlName="takeProfit"
+                    mode="decimal"
+                    [minFractionDigits]="0"
+                    [maxFractionDigits]="8"
+                />
+            </div>
+            <div class="label-value">
+                <label for="takeProfit">Take Profit %</label>
+                <span class="toggle" (click)="toggleTakeProfitAs()">{{deal.takeProfitAmount |
+                    dtcurrency}}</span>
+            </div>
+        </div>
+        <div class="mb-3 col" *ngIf="takeProfitAs === 'amount'">
+            <div>
+                <p-inputNumber name="takeProfitAmount" formControlName="takeProfitAmount"
+                    mode="currency"
+                    currency="USD"
+                    locale="en-US"
+                    [minFractionDigits]="2"
+                    [maxFractionDigits]="3"
+                />
+            </div>
+            <div class="label-value">
+                <label for="takeProfitAmount">Take Profit $</label>
+                <span class="toggle" (click)="toggleTakeProfitAs()">{{deal.takeProfit |
+                    dtpercent}}</span>
+            </div>
+        </div>
+        <div class="mb-3 col" *ngIf="stopLossAs === 'percent'">
+            <div>
+                <p-inputNumber name="stopLoss" formControlName="stopLoss"
+                    mode="decimal"
+                    suffix="%"
+                    [minFractionDigits]="0"
+                    [maxFractionDigits]="8"
+                />
+            </div>
+            <div class="label-value">
+                <label for="stopLoss">Stop Loss %</label>
+                <span class="toggle" (click)="toggleStopLossAs()">{{deal.stopLossAmount |
+                    dtcurrency}}</span>
+            </div>
+        </div>
+        <div class="mb-3 col" *ngIf="stopLossAs === 'amount'">
+            <div>
+                <p-inputNumber name="stopLossAmount" formControlName="stopLossAmount"
+                    mode="currency"
+                    currency="USD"
+                    locale="en-US"
+                    [minFractionDigits]="2"
+                    [maxFractionDigits]="3"
+                />
+            </div>
+            <div class="label-value">
+                <label for="stopLossAmount">Stop Loss $</label>
+                <span class="toggle" (click)="toggleStopLossAs()">{{deal.stopLoss |
+                    dtpercent}}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="mb-3 col">
+            <div>
+                <p-calendar id="closeDate" name="closeDate" formControlName="closeDate"
+                    [showButtonBar]="true"
+                />
+            </div>
+            <label for="closeDate">Close Date</label>
+        </div>
+        <div class="mb-3 col">
+            <div>
+                <dt-quote-input formControlName="closePrice"
+                    [options]="{ name: 'closePrice' }"
+                    [ticker]="dealForm.value.ticker"
+                    [assetType]="dealForm.value.assetType"
+                />
+            </div>
+            <label for="closePrice">Close Price</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="mb-3 col">
+            <div>
+                <p-inputNumber name="feeOpen" formControlName="feeOpen"
+                    mode="decimal"
+                    [minFractionDigits]="0"
+                    [maxFractionDigits]="8"
+                />
+            </div>
+            <label for="feeOpen">Fee to Open</label>
+        </div>
+        <div class="mb-3 col">
+            <div>
+                <p-inputNumber name="feeClose" formControlName="feeClose"
+                    mode="decimal"
+                    [minFractionDigits]="0"
+                    [maxFractionDigits]="8"
+                />
+            </div>
+            <label for="feeClose">Fee to Close</label>
+        </div>
+        <div class="mb-3 col">
+            <div>
+                <p-dropdown id="feeType" name="feeType" formControlName="feeType"
+                    [options]="feeTypes"
+                    optionLabel="name"
+                    optionValue="value"
+                    placeholder="Select"
+                />
+            </div>
+            <label for="feeType">Fee Type</label>
+        </div>
+    </div>
+
+    <div class="card deal-stats">
+        <div class="card-body">
+            <div class="row">
+                <div class="mb-3 col">
+                    <div class="read-only">{{deal.takeProfitFeeAmount | dtcurrency}}</div>
+                    <label>TP Closing Fee</label>
+                </div>
+                <div class="mb-3 col">
+                    <div class="read-only">{{deal.takeProfitCostBasis | dtcurrency}}</div>
+                    <label>TP Cost Basis</label>
+                </div>
+                <div class="mb-3 col">
+                    <div class="read-only">{{deal.takeProfitPrice | dtcurrency}}</div>
+                    <label>TP Price</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="mb-3 col">
+                    <div class="read-only">{{deal.stopLossFeeAmount | dtcurrency}}</div>
+                    <label>SL Close Fee</label>
+                </div>
+                <div class="mb-3 col">
+                    <div class="read-only">{{deal.stopLossCostBasis | dtcurrency}}</div>
+                    <label>SL Cost Basis</label>
+                </div>
+                <div class="mb-3 col">
+                    <div class="read-only">{{deal.stopLossPrice | dtcurrency}}</div>
+                    <label>SL Price</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="mb-3 col">
+                    <div class="read-only">{{deal.closeFeeAmount | dtcurrency}}</div>
+                    <label>Close Fee</label>
+                </div>
+                <div class="mb-3 col">
+                    <div class="read-only">{{deal.closeCostBasis | dtcurrency}}</div>
+                    <label>Close Cost Basis</label>
+                </div>
+                <div class="mb-3 col">
+                    <div class="read-only">
+                        <dt-profit-loss [profitLoss]="deal.profitLoss" [format]="'amount'"></dt-profit-loss>
+                        (<dt-profit-loss [profitLoss]="deal.profitLossPercent" [format]="'percent'"></dt-profit-loss>)
+                    </div>
+                    <label>Profit / Loss</label>
+                </div>
+
+                <dt-progress-bar
+                    *ngIf="deal.takeProfitAmount != null && deal.takeProfitAmount > 0"
+                    [startingValue]="deal.openPrice"
+                    [currentValue]="deal.closePrice"
+                    [lowerLimit]="deal.stopLossPrice"
+                    [lowerLimitLabel]="'SL'"
+                    [upperLimit]="deal.takeProfitPrice"
+                    [upperLimitLabel]="'TP'"
+                ></dt-progress-bar>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div>
+            <textarea pInputTextarea name="notes" id="notes" formControlName="notes"></textarea>
+        </div>
+        <label for="notes">Notes</label>
+    </div>
+
+    <div class="mb-3">
+        <dt-trading-view-chart [ticker]="dealForm.value.ticker" [assetType]="deal.assetType" *ngIf="deal.ticker && deal.assetType"></dt-trading-view-chart>
+    </div>
+
+    <div class="mb-3 button-row">
+        <button type="button"
+            pButton
+            name="deleteDeal"
+            id="deleteDeal"
+            (click)="deleteDeal()"
+            *ngIf="deal.id != null"
+            severity="danger"
+        >
+            Delete Deal
+        </button>
+    </div>
+</form>

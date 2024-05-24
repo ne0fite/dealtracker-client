@@ -1,0 +1,45 @@
+<div class="card deal-card" (click)="editDeal()">
+  <div class="card-body">
+    <div class="row">
+      <div class="col card-title">
+        <div class="card-title-heading">
+          <a routerLink="/deal/{{deal.id}}"> {{deal.ticker}}</a>
+          <fa-icon [icon]="faCheck" *ngIf="deal.status === 'closed'"></fa-icon>
+        </div>
+      </div>
+      <div class="col">
+        {{deal.openDate | date: 'MM/dd/YYYY'}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        {{deal.units|number:'1.0-8'}} &#64; {{deal.openPrice|dtcurrency}}
+      </div>
+      <div class="col">
+        <div><dt-profit-loss [profitLoss]="deal.profitLoss" [format]="'amount'"></dt-profit-loss></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <span *ngIf="deal.closePrice">
+          {{deal.closePrice | dtcurrency }}
+          <span *ngIf="deal.closeDate">({{deal.closeDate| date: 'MM/dd/YYYY HH:mm'}})</span>
+        </span>
+      </div>
+      <div class="col">
+        <div><dt-profit-loss [profitLoss]="deal.profitLossPercent" [format]="'percent'"></dt-profit-loss></div>
+      </div>
+    </div>
+
+    <dt-progress-bar
+      [startingValue]="deal.openPrice"
+      [currentValue]="deal.closePrice"
+      [lowerLimit]="deal.stopLossPrice"
+      [lowerLimitLabel]="'SL'"
+      [upperLimit]="deal.takeProfitPrice"
+      [upperLimitLabel]="'TP'"
+    ></dt-progress-bar>
+  </div>
+</div>

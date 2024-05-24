@@ -1,0 +1,41 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Close Deal</h4>
+  <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="cancel()">
+    <span aria-hidden="true" class="visually-hidden">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+
+  <form [formGroup]="closeDealForm" (ngSubmit)="save()">
+      <div class="mb-3">
+          <div>
+              <p-calendar id="closeDate" name="closeDate" formControlName="closeDate"
+                  [showButtonBar]="true"
+              />
+          </div>
+          <label for="closeDate">Close Date</label>
+      </div>
+
+      <div class="mb-3">
+          <div>
+              <dt-quote-input formControlName="closePrice"
+                  [options]="{ name: 'closePrice' }"
+                  [ticker]="deal.ticker"
+                  [assetType]="deal.assetType"
+              />
+          </div>
+          <label for="closePrice">Close Price</label>
+      </div>
+
+      <div class="mb-3">
+        <div>
+            <textarea pInputTextarea name="notes" id="notes" formControlName="notes"></textarea>
+        </div>
+        <label for="notes">Notes</label>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+  <button type="button" class="btn btn-primary" (click)="save()">Close Deal</button>
+</div>

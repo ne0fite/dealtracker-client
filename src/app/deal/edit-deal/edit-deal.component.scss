@@ -1,0 +1,29 @@
+@import '../../../theme/colors.scss';
+
+$toggle-text: $primary;
+
+.form {
+    .toggle {
+        color: $toggle-text;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .label-value {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 0.25em;
+
+        .toggle {
+            font-size: 0.8em;
+        }
+    }
+
+    .p-inputtextarea {
+        width: 100%;
+    }
+}
+
+.deal-stats {
+    margin-bottom: 1em;
+}

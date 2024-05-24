@@ -1,0 +1,32 @@
+@import '../../theme/colors.scss';
+
+.dt-progress-bar {
+    .labels {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &.two-way {
+        .progress-losing {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        .progress-winning {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            flex: 1;
+        }
+    }
+
+    .progress-bars {
+        // margin-top: 0.5rem;
+        display: flex;
+    }
+
+    .current-indicator {
+        height: 20px;
+        width: 16px;
+        position: relative;
+        margin-left: -4px;
+    }
+}

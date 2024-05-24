@@ -1,0 +1,15 @@
+<p-inputGroup>
+  <p-inputNumber
+      id="{{inputOptions.id}}"
+      name="{{inputOptions.name}}"
+      [formControl]="formControl"
+      mode="currency"
+      currency="USD"
+      locale="en-US"
+      [minFractionDigits]="0"
+      [maxFractionDigits]="8"
+  />
+  <p-inputGroupAddon>
+    <fa-icon [icon]="faRefresh" (click)="getQuote()" [spin]="loading"></fa-icon>
+  </p-inputGroupAddon>
+</p-inputGroup>

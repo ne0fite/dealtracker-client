@@ -1,0 +1,31 @@
+@import '../../../theme/colors.scss';
+
+.deal-card {
+  margin-bottom: 1em;
+  font-size: 0.825rem;
+  cursor: pointer;
+
+  .col {
+    flex: 0.8;
+  }
+
+  .col:last-of-type {
+    flex: 0.2;
+    text-align: right;
+  }
+  .card-title {
+    .card-title-heading {
+      font-size: 1.125rem;
+      font-weight: bold;
+
+      fa-icon {
+        margin-left: 0.5rem;
+      }
+    }
+  }
+
+  dt-progress-bar {
+    display: block;
+    margin: 1rem 0 0;
+  }
+}

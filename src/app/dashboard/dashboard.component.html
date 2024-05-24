@@ -1,0 +1,8 @@
+<div class="header">
+  <h3>Open Deals</h3>
+  <a routerLink="/deal" routerLinkActive="active" ariaCurrentWhenActive="page">View All</a>
+</div>
+
+<dt-deal-stats [filter]="dealFilter"></dt-deal-stats>
+
+<dt-deal-list [filter]="dealFilter"></dt-deal-list>

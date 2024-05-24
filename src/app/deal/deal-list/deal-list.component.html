@@ -1,0 +1,9 @@
+<div class="deal-list">
+  <div class="mb-3">
+    {{deals.length}} Deals
+  </div>
+
+  <div class="mb-3">
+    <dt-deal-card [deal]="deal" *ngFor="let deal of deals"></dt-deal-card>
+  </div>
+</div>
