@@ -10,7 +10,7 @@ import { Deal } from '../../../../../common/types/deal.type';
 import { ProgressBar } from '../../progress-bar/progress-bar.component';
 import { ProfitLossText } from '../../profit-loss-text/profit-loss-text.component';
 import { CurrencyPipe } from '../../pipes/currency.pipe';
-import { WebSocketService } from '../../api/websocket.service';
+// import { WebSocketService } from '../../api/websocket.service';
 
 @Component({
   selector: 'dt-deal-card',
@@ -29,13 +29,13 @@ import { WebSocketService } from '../../api/websocket.service';
   templateUrl: './deal-card.component.html',
   styleUrl: './deal-card.component.scss'
 })
-export class DealCard implements OnChanges, OnInit, OnDestroy {
+export class DealCard {
   @Input({ required: true }) deal!: Deal;
 
   faCheck = faCheck;
 
   constructor(
-    private webSocketService: WebSocketService,
+    // private webSocketService: WebSocketService,
     private router: Router
   ) { }
 
@@ -43,25 +43,25 @@ export class DealCard implements OnChanges, OnInit, OnDestroy {
     calculateDeal(this.deal);
   }
 
-  ngOnInit(): void {
-    this.webSocketService.sendMessage('monitordeal', {
-      id: this.deal.id
-    });
+  // ngOnInit(): void {
+  //   this.webSocketService.sendMessage('monitordeal', {
+  //     id: this.deal.id
+  //   });
 
-    this.webSocketService.on('dealupdate', (message) => {
-      if (message.deal && message.deal.id === this.deal.id) {
-        this.deal = {
-          ...message.deal
-        };
-      }
-    });
-  }
+  //   this.webSocketService.on('dealupdate', (message) => {
+  //     if (message.deal && message.deal.id === this.deal.id) {
+  //       this.deal = {
+  //         ...message.deal
+  //       };
+  //     }
+  //   });
+  // }
 
-  ngOnDestroy(): void {
-    this.webSocketService.sendMessage('unmonitordeal', {
-      id: this.deal.id
-    });
-  }
+  // ngOnDestroy(): void {
+  //   this.webSocketService.sendMessage('unmonitordeal', {
+  //     id: this.deal.id
+  //   });
+  // }
 
   editDeal() {
     this.router.navigate(['deal', this.deal.id]);
