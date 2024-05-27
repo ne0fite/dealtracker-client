@@ -10,7 +10,7 @@ import { Deal } from '../../common/types/deal.type';
 import { ProgressBar } from '../../progress-bar/progress-bar.component';
 import { ProfitLossText } from '../../profit-loss-text/profit-loss-text.component';
 import { CurrencyPipe } from '../../pipes/currency.pipe';
-// import { WebSocketService } from '../../api/websocket.service';
+import { WebsocketService } from '../../coinbase/websocket.service';
 
 @Component({
   selector: 'dt-deal-card',
@@ -32,36 +32,51 @@ import { CurrencyPipe } from '../../pipes/currency.pipe';
 export class DealCard {
   @Input({ required: true }) deal!: Deal;
 
+  productId?: string;
+
   faCheck = faCheck;
 
   constructor(
-    // private webSocketService: WebSocketService,
+    private webSocketService: WebsocketService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnChanges(): void {
     calculateDeal(this.deal);
   }
 
-  // ngOnInit(): void {
-  //   this.webSocketService.sendMessage('monitordeal', {
-  //     id: this.deal.id
-  //   });
+  async ngOnInit() {
+    if (this.deal.status === 'open') {
+      if (this.deal.exchange === 'coinbase' && this.deal.ticker != null) {
+        this.productId = this.deal.ticker;
+        if (this.deal.assetType === 'crypto') {
+          this.productId += '-USD';
+        }
+      }
 
-  //   this.webSocketService.on('dealupdate', (message) => {
-  //     if (message.deal && message.deal.id === this.deal.id) {
-  //       this.deal = {
-  //         ...message.deal
-  //       };
-  //     }
-  //   });
-  // }
+      if (this.productId) {
+        const products = [
+          this.productId
+        ]
+        await this.webSocketService.subscribeToProducts(products, 'ticker', (tickers: any[]) => {
+          const ticker = tickers.find((ticker) => ticker.product_id === this.productId);
+          if (ticker) {
+            this.deal.closePrice = parseFloat(ticker.price);
+            this.deal.closeDate = new Date();
+          }
+        });
+      }
+    }
+  }
 
-  // ngOnDestroy(): void {
-  //   this.webSocketService.sendMessage('unmonitordeal', {
-  //     id: this.deal.id
-  //   });
-  // }
+  async ngOnDestroy() {
+    if (this.productId) {
+      const products = [
+        this.productId
+      ]
+      await this.webSocketService.unsubscribeToProducts(products, 'ticker');
+    }
+  }
 
   editDeal() {
     this.router.navigate(['deal', this.deal.id]);

@@ -90,23 +90,23 @@ export class ProgressBar implements OnChanges {
     const winningPercent = withinRange(toPercent(maxWinning, totalDistance) || 0, 0, 100);
     this.progress = toPercent(isWinning ? winningAmount : -losingAmount, maxWinning);
 
-    console.log({
-      currentValue: this.currentValue,
-      lowerLimit,
-      upperLimit: this.upperLimit,
-      isWinning,
-      currentAmount,
-      winningAmount,
-      losingAmount,
-      maxLosing,
-      maxWinning,
-      totalDistance,
-      losingRatio,
-      losingPercent,
-      winningPercent,
-      currentPercent,
-      progress: this.progress
-    });
+    // console.log({
+    //   currentValue: this.currentValue,
+    //   lowerLimit,
+    //   upperLimit: this.upperLimit,
+    //   isWinning,
+    //   currentAmount,
+    //   winningAmount,
+    //   losingAmount,
+    //   maxLosing,
+    //   maxWinning,
+    //   totalDistance,
+    //   losingRatio,
+    //   losingPercent,
+    //   winningPercent,
+    //   currentPercent,
+    //   progress: this.progress
+    // });
 
     this.currentIndicatorStyle.left = `${currentPercent}%`;
 
