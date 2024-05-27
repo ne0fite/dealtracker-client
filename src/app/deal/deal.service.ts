@@ -4,12 +4,12 @@ import { firstValueFrom } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 import { stringifyQuery } from '../utils/stringify-query';
-import { Deal } from '../../../../common/types/deal.type';
-import { DealStats } from '../../../../common/types/deal-stats';
-import { DealDto } from '../../../../common/types/deal.dto';
+import { Deal } from '../common/types/deal.type';
+import { DealStats } from '../common/types/deal-stats';
+import { DealDto } from '../common/types/deal.dto';
 import { DialogService } from '../dialog/dialog.service';
 import { CloseDealDialog } from './close-deal-dialog/close-deal-dialog.component';
-import { DealQuery, FindDealResponse } from '../../../../common/types';
+import { DealQuery, FindDealResponse } from '../common/types';
 
 @Injectable({
     providedIn: 'root'

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
-import { toPercent, toRatio, withinRange } from '../../../../common/conversions';
+import { toPercent, toRatio, withinRange } from '../common/conversions';
 import { CurrencyPipe } from '../pipes/currency.pipe';
 import { ProfitLossText } from '../profit-loss-text/profit-loss-text.component';
 

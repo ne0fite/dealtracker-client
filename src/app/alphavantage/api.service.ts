@@ -3,9 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 
 import { environment } from '../../environments/environment';
-import * as CryptoSymbols from '../../../../common/config/crypto-symbols.json';
+import * as CryptoSymbols from '../common/config/crypto-symbols.json';
 
-import { DealType, Interval, Quote, Ticker } from '../../../../common/types';
+import { DealType, Interval, Quote, Ticker } from '../common/types';
 
 @Injectable({
   providedIn: 'root'

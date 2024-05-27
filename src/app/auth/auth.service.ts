@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 
 import { environment } from '../../environments/environment';
 import * as Constants from '../constants';
-import { LoginResponse } from '../../../../common/types';
-import { LoginDto } from '../../../../common/types/login.dto';
+import { LoginResponse } from '../common/types';
+import { LoginDto } from '../common/types/login.dto';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({

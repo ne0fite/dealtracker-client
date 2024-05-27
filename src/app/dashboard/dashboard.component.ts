@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
-import { DealFilter } from '../../../../common/types';
+import { DealFilter } from '../common/types';
 import { DealList } from '../deal/deal-list/deal-list.component';
 import { DealStatsComponent } from '../deal/deal-stats/deal-stats.component';
 

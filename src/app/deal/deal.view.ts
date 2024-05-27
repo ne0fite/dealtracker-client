@@ -1,4 +1,4 @@
-import { DealType, FeeType, DealStatus } from "../../../../common/types";
+import { DealType, FeeType, DealStatus } from "../common/types";
 
 export interface DealView {
   id?: string | null;

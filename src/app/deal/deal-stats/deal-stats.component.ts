@@ -3,10 +3,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CurrencyPipe } from '../../pipes/currency.pipe';
 import { PercentPipe } from '../../pipes/percent.pipe';
 
-import { DealStats } from '../../../../../common/types/deal-stats';
+import { DealStats } from '../../common/types/deal-stats';
 import { DealService } from '../deal.service';
 import { ProfitLossText } from '../../profit-loss-text/profit-loss-text.component';
-import { DealFilter, DealQuery } from '../../../../../common/types';
+import { DealFilter, DealQuery } from '../../common/types';
 
 @Component({
   selector: 'dt-deal-stats',

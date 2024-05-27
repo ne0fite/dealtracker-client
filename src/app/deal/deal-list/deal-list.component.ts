@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { DealFilter, DealQuery, FindDealResponse } from '../../../../../common/types';
-import { Deal } from '../../../../../common/types/deal.type';
+import { DealFilter, DealQuery } from '../../common/types';
+import { Deal } from '../../common/types/deal.type';
 
 import { DealService } from '../deal.service';
 import { DealCard } from '../deal-card/deal-card.component';

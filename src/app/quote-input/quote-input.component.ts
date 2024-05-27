@@ -9,7 +9,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputNumberModule } from 'primeng/inputnumber';
 
 import { ApiService } from '../alphavantage/api.service';
-import { DealType } from '../../../../common/types';
+import { DealType } from '../common/types';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

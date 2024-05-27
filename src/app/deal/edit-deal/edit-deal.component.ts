@@ -14,10 +14,10 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 
-import { calculateDeal } from '../../../../../common/calculator';
-import { Deal } from '../../../../../common/types/deal.type';
-import { DealDto } from '../../../../../common/types/deal.dto';
-import { Ticker } from '../../../../../common/types';
+import { calculateDeal } from '../../common/calculator';
+import { Deal } from '../../common/types/deal.type';
+import { DealDto } from '../../common/types/deal.dto';
+import { Ticker } from '../../common/types';
 
 import { fromPercent, fromRatio, toPercent, toRatio } from '../../conversions';
 import { ApiService } from '../../alphavantage/api.service';
