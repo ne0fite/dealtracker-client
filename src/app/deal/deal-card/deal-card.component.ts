@@ -63,6 +63,7 @@ export class DealCard {
           if (ticker) {
             this.deal.closePrice = parseFloat(ticker.price);
             this.deal.closeDate = new Date();
+            calculateDeal(this.deal);
           }
         });
       }
