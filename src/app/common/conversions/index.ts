@@ -39,12 +39,12 @@ export function fromRatio(x?: number | null, y?: number | null): number | null {
  * Returns null if either x or y is null or if y is 0.
  * @param x
  * @param y
- * @returns number | null
+ * @returns number
  */
-export function toPercent(x?: number | null, y?: number | null): number | null {
+export function toPercent(x?: number | null, y?: number | null): number {
     const value = toRatio(x, y);
     if (value == null || isNaN(value)) {
-        return null;
+        return 0;
     }
     return value * 100;
 }

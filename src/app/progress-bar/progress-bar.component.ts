@@ -40,17 +40,9 @@ export class ProgressBar implements OnChanges {
     left: '0%'
   }
 
-  spacerStyle = {
-    flex: 0
-  }
-
-  losingStyle = {
-    flex: 0
-  }
-
-  winningStyle = {
-    flex: 1
-  }
+  stopLossProgressStyle = {
+    width: '0%'
+  };
 
   losingProgressStyle = {
     width: '0%'
@@ -62,9 +54,6 @@ export class ProgressBar implements OnChanges {
 
   ngOnChanges() {
     this.currentIndicatorStyle.left = '0%';
-    this.spacerStyle.flex = 0;
-    this.losingStyle.flex = 0;
-    this.winningStyle.flex = 1;
     this.losingProgressStyle.width = '0%';
     this.winningProgressStyle.width = '0%';
 
@@ -72,56 +61,30 @@ export class ProgressBar implements OnChanges {
       return;
     }
 
-    const lowerLimit = this.lowerLimit != null ? this.lowerLimit : this.startingValue;
+    const op = this.startingValue;
+    const tp = this.upperLimit;
+    const sl = this.lowerLimit != null ? this.lowerLimit : op;
+    const cp = this.currentValue;
+    const pl = cp - op;
+    const totalRange = tp - sl;
 
-    const isWinning = this.currentValue >= this.startingValue;
+    const cpPercent = withinRange(toPercent(cp - sl, totalRange), 0, 100);
 
-    const maxLosing = this.startingValue - lowerLimit;
-    const maxWinning = this.upperLimit - this.startingValue;
+    let slPercent = 0;
+    let lPercent = 0;
+    let pPercent = 0;
 
-    const currentAmount = this.currentValue - lowerLimit;
-    const winningAmount = !isWinning ? 0 : this.currentValue - this.startingValue;
-    const losingAmount = isWinning ? 0 : this.startingValue - this.currentValue;
-    const totalDistance = this.upperLimit - lowerLimit;
-
-    const currentPercent = withinRange(toPercent(currentAmount, totalDistance) || 0, 0, 100);
-    const losingPercent = maxLosing > 0 ? withinRange(toPercent(maxLosing, totalDistance) || 0, 0, 100) : 100;
-    const losingRatio = toRatio(losingAmount, maxLosing) || 1;
-    const winningPercent = withinRange(toPercent(maxWinning, totalDistance) || 0, 0, 100);
-    this.progress = toPercent(isWinning ? winningAmount : -losingAmount, maxWinning);
-
-    // console.log({
-    //   currentValue: this.currentValue,
-    //   lowerLimit,
-    //   upperLimit: this.upperLimit,
-    //   isWinning,
-    //   currentAmount,
-    //   winningAmount,
-    //   losingAmount,
-    //   maxLosing,
-    //   maxWinning,
-    //   totalDistance,
-    //   losingRatio,
-    //   losingPercent,
-    //   winningPercent,
-    //   currentPercent,
-    //   progress: this.progress
-    // });
-
-    this.currentIndicatorStyle.left = `${currentPercent}%`;
-
-    if (!isWinning) {
-      this.losingStyle.flex = losingPercent * losingRatio;
-      this.spacerStyle.flex = losingPercent * (1 - losingRatio);
-      this.winningStyle.flex = winningPercent;
-      this.losingProgressStyle.width = '100%';
-      this.winningProgressStyle.width = '0%';
+    if (pl < 0) {
+      slPercent = withinRange(toPercent(op - sl + pl, totalRange), 0, 100);
+      lPercent = withinRange(toPercent(Math.abs(pl), totalRange), 0, 100);
     } else {
-      this.spacerStyle.flex = 0;
-      this.losingStyle.flex = 0;
-      this.winningStyle.flex = 1;
-      this.losingProgressStyle.width = '0%';
-      this.winningProgressStyle.width = `${this.progress}%`;
+      slPercent = withinRange(toPercent(op - sl, totalRange), 0, 100);
+      pPercent = withinRange(toPercent(pl, totalRange), 0, 100);
     }
+
+    this.currentIndicatorStyle.left = `${cpPercent}%`;
+    this.stopLossProgressStyle.width = `${slPercent}%`;
+    this.losingProgressStyle.width = `${lPercent}%`;
+    this.winningProgressStyle.width = `${pPercent}%`;
   }
 }

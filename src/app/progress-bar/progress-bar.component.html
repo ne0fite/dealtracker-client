@@ -9,18 +9,9 @@
         <fa-icon [icon]="faCaretDown"></fa-icon>
     </div>
 
-    <div class="progress-bars">
-        <div class="progress" [ngStyle]="spacerStyle" style="height: 2px;">
-            <div class="progress-bar" role="progressbar" style="width: '0%'">
-            </div>
-        </div>
-        <div class="progress" [ngStyle]="losingStyle" style="height: 2px;">
-            <div class="progress-bar bg-danger" role="progressbar" [ngStyle]="losingProgressStyle">
-            </div>
-        </div>
-        <div class="progress" [ngStyle]="winningStyle" style="height: 2px;">
-            <div class="progress-bar bg-success" role="progressbar" [ngStyle]="winningProgressStyle">
-            </div>
-        </div>
+    <div class="progress" style="height: 2px;">
+        <div class="progress-bar bg-transparent" role="progressbar" [ngStyle]="stopLossProgressStyle"></div>
+        <div class="progress-bar bg-danger" role="progressbar" [ngStyle]="losingProgressStyle"></div>
+        <div class="progress-bar bg-success" role="progressbar" [ngStyle]="winningProgressStyle"></div>
     </div>
 </div>
