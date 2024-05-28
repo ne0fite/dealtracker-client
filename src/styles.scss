@@ -27,6 +27,11 @@ nav {
     }
 }
 
+.back-link {
+    cursor: pointer;
+    color: $link-text;
+}
+
 label {
     color: $label-text;
     font-size: 0.8rem;

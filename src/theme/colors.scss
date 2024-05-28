@@ -1,7 +1,11 @@
 @import "../../node_modules/bootstrap/scss/functions";
 @import "../../node_modules/bootstrap/scss/variables";
 
+$navbar-bg: $black;
+$navbar-item-text: $color-contrast-light;
+
 $label-text: $gray-600;
+$link-text: rgba(var(--bs-link-color-rgb));
 
 $profit: $success;
 $loss: $danger;

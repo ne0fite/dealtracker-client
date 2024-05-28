@@ -1,9 +1,9 @@
 <form [formGroup]="dealForm" (ngSubmit)="saveDeal()" class="form">
     <div class="header">
         <h2>
-            <a href="#" (click)="goBack()">
+            <span (click)="goBack()" class="back-link">
                 <fa-icon [icon]="faChevronLeft"></fa-icon>
-            </a>
+            </span>
             {{title}}
         </h2>
 

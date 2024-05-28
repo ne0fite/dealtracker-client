@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment';
 import * as Constants from '../constants';
 import { LoginResponse } from '../common/types';
 import { LoginDto } from '../common/types/login.dto';
-import { firstValueFrom } from 'rxjs';
+import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,18 +13,18 @@ import { firstValueFrom } from 'rxjs';
 export class AuthService {
   accessToken?: string | null;
 
+  private loggedInSubject = new BehaviorSubject<boolean>(false);
+  public loggedIn$: Observable<boolean> = this.loggedInSubject.asObservable();
+
   constructor(
     private http: HttpClient,
   ) {
     this.accessToken = localStorage.getItem(Constants.LS_ACCESS_TOKEN_KEY);
+    this.loggedInSubject.next(this.accessToken != null);
   }
 
   getAccessToken() {
     return this.accessToken;
-  }
-
-  isLoggedIn(): boolean {
-    return this.accessToken != null;
   }
 
   /**
@@ -47,11 +47,18 @@ export class AuthService {
 
     this.accessToken = response.accessToken;
 
+    this.loggedInSubject.next(true);
+
     localStorage.setItem(Constants.LS_ACCESS_TOKEN_KEY, this.accessToken);
   }
 
   logout() {
     this.accessToken = null;
+    this.loggedInSubject.next(false);
     localStorage.removeItem(Constants.LS_ACCESS_TOKEN_KEY);
+  }
+
+  isLoggedIn(): Observable<boolean> {
+    return this.loggedIn$;
   }
 }
