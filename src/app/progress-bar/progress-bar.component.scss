@@ -18,15 +18,66 @@
         }
     }
 
-    .progress-bars {
-        // margin-top: 0.5rem;
+    .progress {
+        margin-bottom: 0.5rem;
         display: flex;
     }
 
-    .current-indicator {
-        height: 20px;
-        width: 16px;
+    .labels {
         position: relative;
-        margin-left: -4px;
+        height: 16px;
+        width: 100%;
+
+        .indicator-label {
+            position: absolute;
+
+            span {
+                margin-left: -50%;
+            }
+
+            &.left-align {
+                span {
+                    margin-left: 0%;
+                }
+            }
+
+            &.right-align {
+                span {
+                    margin-left: -100%;
+                }
+            }
+        }
+
+        .progress-label {
+            left: 50%;
+            position: absolute;
+
+            span {
+                margin-left: -50%;
+            }
+        }
+    }
+
+    .indicators {
+        position: relative;
+        height: 13px;
+        width: 100%;
+        margin-top: 0.5rem;
+
+        .indicator {
+            position: absolute;
+            display: inline;
+        }
+
+        .current-indicator {
+            margin-left: -4px;
+            top: -8px;
+            height: 10px;
+        }
+
+        .pipe-indicator {
+            top: 6px;
+            font-size: 10px;
+        }
     }
 }

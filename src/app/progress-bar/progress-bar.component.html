@@ -1,17 +1,41 @@
-<div class="dt-progress-bar" [ngClass]="progressClass">
+<div class="dt-progress-bar">
     <div class="labels">
-        <label *ngIf="lowerLimit">{{lowerLimitLabel}} {{lowerLimit | dtcurrency }}</label>
-        <label><dt-profit-loss [profitLoss]="progress" [format]="'percent'"></dt-profit-loss></label>
-        <label>{{upperLimitLabel}} {{upperLimit | dtcurrency }}</label>
+        <label class="indicator-label" [ngStyle]="slLabelStyle" [ngClass]="slLabelClass">
+            <span>
+                {{lowerBoundLabel}} {{lowerBound | dtcurrency }}
+            </span>
+        </label>
+        <label class="progress-label">
+            <span>
+                <dt-profit-loss [profitLoss]="progress" [format]="'percent'"></dt-profit-loss>
+            </span>
+        </label>
+        <label class="indicator-label" [ngStyle]="tpLabelStyle" [ngClass]="tpLabelClass">
+            <span>
+                {{upperBoundLabel}} {{upperBound | dtcurrency }}
+            </span>
+        </label>
     </div>
 
-    <div class="current-indicator" [ngStyle]="currentIndicatorStyle">
-        <fa-icon [icon]="faCaretDown"></fa-icon>
+    <div class="indicators">
+        <div class="indicator current-indicator" [ngStyle]="cpIndicatorStyle">
+            <fa-icon [icon]="faCaretDown"></fa-icon>
+        </div>
+
+        <div class="indicator pipe-indicator" [ngStyle]="slIndicatorStyle">|</div>
+        <div class="indicator pipe-indicator" [ngStyle]="opIndicatorStyle">|</div>
+        <div class="indicator pipe-indicator" [ngStyle]="tpIndicatorStyle">|</div>
     </div>
 
     <div class="progress" style="height: 2px;">
         <div class="progress-bar bg-transparent" role="progressbar" [ngStyle]="stopLossProgressStyle"></div>
         <div class="progress-bar bg-danger" role="progressbar" [ngStyle]="losingProgressStyle"></div>
         <div class="progress-bar bg-success" role="progressbar" [ngStyle]="winningProgressStyle"></div>
+    </div>
+
+    <div class="labels">
+        <label class="indicator-label" [ngStyle]="opLabelStyle" [ngClass]="opLabelClass">
+            <span>OP {{startingValue|currency}}</span>
+        </label>
     </div>
 </div>
