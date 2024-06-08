@@ -34,7 +34,10 @@ export interface OptionValue {
 }
 
 export interface DealFilter {
+  dateRange: string | null;
+  dateRangeDates: Date[] | null;
   status: DealStatus | null;
+  symbols?: string[] | null;
 }
 
 export interface DealQuery {

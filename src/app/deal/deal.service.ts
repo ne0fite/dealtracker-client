@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 
 import { environment } from '../../environments/environment';
-import { stringifyQuery } from '../utils/stringify-query';
 import { Deal } from '../common/types/deal.type';
 import { DealStats } from '../common/types/deal-stats';
 import { DealDto } from '../common/types/deal.dto';
 import { DialogService } from '../dialog/dialog.service';
 import { CloseDealDialog } from './close-deal-dialog/close-deal-dialog.component';
 import { DealQuery, FindDealResponse } from '../common/types';
+import { QueryInterface } from '../common/query-interface';
+import { objectToQueryString } from '../object-to-query-string';
 
 @Injectable({
     providedIn: 'root'
@@ -20,26 +21,43 @@ export class DealService {
         private dialogService: DialogService,
     ) { }
 
-    getStats(query?: DealQuery): Promise<DealStats> {
+    async getSymbols(): Promise<string[]> {
+        const query: QueryInterface = {
+            attributes: ['ticker'],
+            group: [{
+                field: 'ticker',
+                dir: 'asc'
+            }],
+            sort: [{
+                field: 'ticker',
+                dir: 'asc'
+            }]
+        }
+
+        const url = `${environment.apiUrl}/api/v1/deal?${objectToQueryString(query)}`;
+
+        const observable = this.http.get<FindDealResponse>(url);
+        const response = await firstValueFrom(observable);
+
+        return response.results.map((deal: Deal) => deal.ticker as string);
+    }
+
+    getStats(query?: QueryInterface): Promise<DealStats> {
         let url = `${environment.apiUrl}/api/v1/deal/stats`;
 
-        const options = {};
-
         if (query) {
-            url += '?' + stringifyQuery(query);
+            url += '?' + objectToQueryString(query);;
         }
 
         const observable = this.http.get<DealStats>(url);
         return firstValueFrom(observable);
     }
 
-    find(query?: DealQuery): Promise<FindDealResponse> {
+    find(query?: QueryInterface): Promise<FindDealResponse> {
         let url = `${environment.apiUrl}/api/v1/deal`;
 
-        const options = {};
-
         if (query) {
-            url += '?' + stringifyQuery(query);
+            url += '?' + objectToQueryString(query);
         }
 
         const observable = this.http.get<FindDealResponse>(url);

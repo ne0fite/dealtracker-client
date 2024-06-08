@@ -1,6 +1,13 @@
 <div class="deal-list">
-  <div class="mb-3">
-    {{deals.length}} Deals
+  <div class="list-header">
+    <div class="mb-3">
+      {{deals.length}} Deals
+    </div>
+    <div>
+      <p-button type="button" severity="secondary" [badge]="numFilters" (click)="filterDeals()">
+        <fa-icon [icon]="faSliders"></fa-icon> Filter
+      </p-button>
+    </div>
   </div>
 
   <div class="mb-3">

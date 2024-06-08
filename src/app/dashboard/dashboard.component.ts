@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 import { DealFilter } from '../common/types';
@@ -18,9 +18,7 @@ import { DealStatsComponent } from '../deal/deal-stats/deal-stats.component';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  dealFilter: DealFilter = {
-    status: 'open'
-  };
+  @Input() filter?: DealFilter;
 
   ngOnInit(): void {
   }

@@ -7,6 +7,7 @@ import { DealStats } from '../../common/types/deal-stats';
 import { DealService } from '../deal.service';
 import { ProfitLossText } from '../../profit-loss-text/profit-loss-text.component';
 import { DealFilter, DealQuery } from '../../common/types';
+import { QueryInterface } from '../../common/query-interface';
 
 @Component({
   selector: 'dt-deal-stats',
@@ -35,18 +36,19 @@ export class DealStatsComponent implements OnInit {
   };
 
   async ngOnInit() {
-    const query: DealQuery = {};
+    const query: QueryInterface = {};
 
     if (this.filter) {
-      const filters = [];
-
-      if (this.filter.status) {
-        filters.push({ status: this.filter.status });
-      }
-
       query.filter = {
-        filters,
-      }
+        logic: 'and',
+        filters: []
+      };
+
+      query.filter.filters.push({
+        field: 'status',
+        operator: 'eq',
+        value: 'closed'
+      });
     }
 
     this.stats = await this.dealService.getStats(query);
