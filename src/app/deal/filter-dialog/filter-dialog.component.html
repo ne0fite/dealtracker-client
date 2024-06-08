@@ -27,6 +27,17 @@
     <div class="row mb-3">
       <div class="col">
         <div>
+          <p-dropdown [options]="statusOptions" formControlName="status" optionLabel="label" optionValue="value"
+            placeholder="All"
+            [inputId]="'jobIds'" [filter]="false" />
+        </div>
+        <label>Status</label>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col">
+        <div>
           <p-multiSelect [options]="symbols" formControlName="symbols" optionLabel="label" optionValue="value"
             placeholder="All Symbols"
             [inputId]="'jobIds'" [filter]="false" />

@@ -91,11 +91,16 @@ export class DealList implements OnInit {
   updateNumFilters() {
     // update the filter count badge
     let numFilters = 0;
-    if (this.filter?.dateRange != null) {
-      numFilters++;
-    }
-    if (this.filter?.symbols && this.filter.symbols.length > 0) {
-      numFilters++;
+    if (this.filter) {
+      if (this.filter.dateRange != null) {
+        numFilters++;
+      }
+      if (this.filter.status) {
+        numFilters++;
+      }
+      if (this.filter.symbols && this.filter.symbols.length > 0) {
+        numFilters++;
+      }
     }
     this.numFilters = numFilters > 0 ? numFilters.toString() : undefined;
   }
@@ -155,8 +160,6 @@ export class DealList implements OnInit {
         });
       }
     }
-
-    console.log(query);
 
     const response = await this.dealService.find(query);
     this.deals = this.deals.concat(response.results);

@@ -8,6 +8,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DealService } from '../deal.service';
+import { DealStatus } from '../../common/types';
 
 type LabelValue = {
   label: string,
@@ -34,13 +35,14 @@ export class FilterDialogComponent implements OnInit {
   filterForm = this.formBuilder.group({
     dateRange: new FormControl(null as string | null),
     dateRangeDates: new FormControl([] as Date[]),
+    status: new FormControl(null as DealStatus | null),
     symbols: new FormControl([] as LabelValue[]),
   });
 
   filters = {
     dateRange: null as string | null,
     dateRangeDates: [] as Date[] | null,
-    status: null as string | null,
+    status: null as DealStatus | null,
     symbols: [] as LabelValue[]
   };
 
@@ -74,6 +76,14 @@ export class FilterDialogComponent implements OnInit {
     label: 'Custom',
     value: 'custom',
   }]
+
+  statusOptions = [{
+    label: 'Open',
+    value: 'open'
+  }, {
+    label: 'Closed',
+    value: 'closed'
+  }];
 
   symbols: LabelValue[] = [];
 
@@ -128,6 +138,8 @@ export class FilterDialogComponent implements OnInit {
       // show all dates
       this.filters.dateRangeDates = null;
     }
+
+    this.filters.status = this.filterForm.value.status || null;
 
     this.filters.symbols = this.filterForm.value.symbols || [];
 
