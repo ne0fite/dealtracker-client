@@ -1,27 +1,23 @@
-<div class="card deal-stats">
-  <div class="card-body">
-    <div class="row">
-      <div class="col mb-3">
-        <div>{{stats.wins}}</div>
-        <label>Winners</label>
-      </div>
-      <div class="col mb-3">
-        <div>{{stats.losses}}</div>
-        <label>Losers</label>
-      </div>
+<div class="row">
+  <div class="col mb-3">
+    <div>{{stats.wins}}</div>
+    <label>Winners</label>
+  </div>
+  <div class="col mb-3">
+    <div>{{stats.losses}}</div>
+    <label>Losers</label>
+  </div>
+</div>
+<div class="row">
+  <div class="col mb-3">
+    <div>
+      <dt-profit-loss [profitLoss]="stats.totalProfitLoss" [format]="'amount'"></dt-profit-loss>
+      (<dt-profit-loss [profitLoss]="stats.totalProfitPercent" [format]="'percent'"></dt-profit-loss>)
     </div>
-    <div class="row">
-      <div class="col mb-3">
-        <div>
-          <dt-profit-loss [profitLoss]="stats.totalProfitLoss" [format]="'amount'"></dt-profit-loss>
-          (<dt-profit-loss [profitLoss]="stats.totalProfitPercent" [format]="'percent'"></dt-profit-loss>)
-        </div>
-        <label>Profit</label>
-      </div>
-      <div class="col mb-3">
-        <div>{{stats.totalProgress|dtpercent}}</div>
-        <label>Progress</label>
-      </div>
-    </div>
+    <label>Profit</label>
+  </div>
+  <div class="col mb-3">
+    <div>{{stats.totalProgress|dtpercent}}</div>
+    <label>Progress</label>
   </div>
 </div>

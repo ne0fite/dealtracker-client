@@ -78,6 +78,9 @@ export class FilterDialogComponent implements OnInit {
   }]
 
   statusOptions = [{
+    label: 'All',
+    value: null
+  }, {
     label: 'Open',
     value: 'open'
   }, {

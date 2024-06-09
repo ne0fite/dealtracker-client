@@ -33,4 +33,5 @@ export interface QueryInterface {
   take?: number;
   offset?: number;
   bucket?: string;
+  bucketField?: string;
 }

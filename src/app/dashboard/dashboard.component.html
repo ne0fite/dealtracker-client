@@ -1,8 +1,21 @@
 <div class="header">
-  <h3>Open Deals</h3>
-  <a routerLink="/deal" routerLinkActive="active" ariaCurrentWhenActive="page">View All</a>
+  <h3>Dashboard</h3>
+  <div>
+    <p-button type="button" severity="secondary" [badge]="numFilters" (click)="filterDeals()">
+      <fa-icon [icon]="faSliders"></fa-icon>&nbsp;Filter
+    </p-button>
+  </div>
 </div>
 
-<dt-deal-stats [filter]="filter"></dt-deal-stats>
+<div class="card deal-stats mb-3">
+  <div class="card-body">
+    <dt-deal-stats [filter]="filter"></dt-deal-stats>
+  </div>
+</div>
 
-<dt-deal-list [filter]="filter"></dt-deal-list>
+<div class="card">
+  <div class="card-body">
+    <dt-bar-chart id="monthly-profit" [options]="monthlyProfitChartOptions" [data]="mothlyProfitChartData"></dt-bar-chart>
+  </div>
+</div>
+
